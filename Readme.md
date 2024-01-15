@@ -72,3 +72,29 @@ public class Repository<T>:IRepository<T> where T: class{
 }
 
 ```
+
+These components i.e. Class and Interface provides base for implementing the repository pattern in our project. Let's assume that we have Student Model in our project we want to implement repository pattern with. Let's again create two files, i.e. `IStudentRepository.cs` and `StudentRepository.cs` .
+
+```C#
+    public interface IStudentRepository:IRepository<Student>{
+            void Update(Student model);
+            void Save();
+    }
+```
+
+```C#
+    public class StudentRepository:Repository<Student>,IStudentRepository{
+        public StudentDbContext _studentDb;
+        public StudentRepository(StudentDbContext studentDb):base(studentDb){
+            _studentDb = studentDb;
+        }
+        public void Save()
+        {
+            _studentDb.SaveChanges();
+        }
+        public void Update(EmployeeModel model){
+          _studentDb.Employees?.Update(model);
+        }
+    }
+```
+
