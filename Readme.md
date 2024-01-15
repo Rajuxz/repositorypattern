@@ -33,10 +33,10 @@ Here we learn to create and implement Generic Repository with Dotnet Core Projec
 - Now, create the class named `Repository` implementing our Repository.
 ```c#
 public class Repository<T>:IRepository<T> where T: class{
-    private readonly EmployeeDbContext _dbContext;
+    private readonly StudentDbContext _dbContext;
     internal DbSet<T> database;
 
-    public Repository(EmployeeDbContext dbContext)
+    public Repository(StudentDbContext dbContext)
     {
         _dbContext = dbContext;
         database = _dbContext.Set<T>();
@@ -92,9 +92,40 @@ These components i.e. Class and Interface provides base for implementing the rep
         {
             _studentDb.SaveChanges();
         }
-        public void Update(EmployeeModel model){
-          _studentDb.Employees?.Update(model);
+        public void Update(Student model){
+          _studentDb.Student?.Update(model);
         }
     }
 ```
 
+Now we are ready to go.
+
+Let's come to our controller. Assuming our controller is named `StudentController`.
+```C#
+public class StudentController : controller{
+    public IStudentRepository _studentRepo;
+    public StudentController(IStudentRepository studentRepo){
+        _studentRepo = studentRepo;
+    }
+    //Now, we use the object or StudentRepository instead of our DbContexts'.
+      public IActionResult StudentView()
+     {
+        try
+        {
+            List<Student> student = _studentRepo.GetAll().ToList();
+            return View(student);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception .. -> {ex.ToString()}");
+            return View(ex);
+        }
+    }
+}
+
+```
+
+So, here we implemented Repository pattern in dotnetcore 6 MVC.
+
+<hr>
+<i>HappyCoding🤞</i>
