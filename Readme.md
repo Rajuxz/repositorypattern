@@ -127,5 +127,13 @@ public class StudentController : controller{
 
 So, here we implemented Repository pattern in dotnetcore 6 MVC.
 
-<hr>
-<i>HappyCoding🤞</i>
+Now, we need to add dependency Injection to our program.cs file.
+```c#
+    builder.Services.AddTransient(typeof(IRepository<>),typeof(Repository<>));
+    builder.Services.AddTransient<IStudentRepository,StudentRepository>();
+
+```
+And we are ready to go.
+
+---
+*HappyCoding🤞*
